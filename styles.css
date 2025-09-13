@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ---------------------- THEME TOKENS ---------------------- */
+:root{
+  --primary-gradient: linear-gradient(135deg,#6e48aa 0%,#9d50bb 100%);
+  --secondary-gradient: linear-gradient(135deg,#42e695 0%,#3bb2b8 100%);
+  --accent-gradient: linear-gradient(135deg,#f6d365 0%,#fda085 100%);
+  --danger-gradient: linear-gradient(135deg,#ff6b6b 0%,#ff8e8e 100%);
+  --success-gradient: linear-gradient(135deg,#0ba360 0%,#3cba92 100%);
+
+  --card-bg: rgba(255,255,255,.9);
+  --card-shadow: 0 10px 20px rgba(0,0,0,.08);
+
+  --text-primary:#2d3748;
+  --text-secondary:#4a5568;
+  --text-muted:#718096;
+
+  --border-color: rgba(226,232,240,.8);
+  --surface:#fff;
+
+  /* Dynamic text colors for solid gradient buttons (kept readable after theme apply) */
+  --btn-primary-fg: #ffffff;
+  --btn-alt-fg: #ffffff;
+
+  /* Dynamic accents updated by JS when theme is applied */
+  --link-fg: #6e48aa;
+  --header-fg: var(--text-secondary);
+  --footer-fg: var(--text-muted);
+
+  /* Unify Dog/Cat media height (tunable per breakpoint) */
+  --media-height: 260px;
+}
+
+/* Responsive media height for small screens */
+@media (max-width: 900px){
+  :root{ --media-height: 220px; }
+}
+@media (max-width: 560px){
+  :root{ --media-height: 180px; }
+}
+
+/* ---------------------- BASE ---------------------- */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{background:#f7fafc;color:var(--text-primary);overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+
+.dashboard-container{max-width:1100px;width:100%;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:18px}
+
+/* ---------------------- HEADER ---------------------- */
+.dashboard-header{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-icon{width:36px;height:36px;border-radius:10px;background:var(--primary-gradient);display:grid;place-items:center;color:#fff;font-weight:700}
+.brand-name{font-size:20px;font-weight:600;color:var(--header-fg)}
+.tagline{margin-left:auto;color:var(--header-fg);font-weight:600;white-space:nowrap}
+
+/* ---------------------- GRID + WIDGETS ---------------------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px}
+.widget{background:var(--card-bg);border-radius:15px;padding:15px;box-shadow:var(--card-shadow);display:flex;flex-direction:column;gap:10px;min-height:240px}
+.widget-title{font-size:16px;font-weight:600;color:var(--text-primary)}
+.content{min-height:130px;display:grid;place-items:center;text-align:center}
+
+/* Movies should span 2 columns on wider screens, full width on narrow */
+.widget.wide{grid-column:span 2}
+@media (max-width: 900px){
+  .widget.wide{grid-column:1 / -1}
+}
+
+/* Title with right-aligned actions (Movies) */
+.widget-title.with-actions{display:flex;align-items:center;gap:10px}
+.widget-title.with-actions .title-actions{margin-left:auto;display:flex;gap:6px;align-items:center}
+.widget-title.with-actions .title-actions .btn{padding:6px 10px;font-size:12px;border-radius:10px}
+.widget-title.with-actions .title-actions select{
+  padding:6px 10px;font-size:12px;border-radius:10px;border:1px solid var(--border-color);background:#fff;color:var(--text-primary);
+}
+
+/* ---------------------- WEATHER GRAPHIC ---------------------- */
+.weather-graphic{
+  width:100%;
+  height:110px;
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,.9));
+  display:grid;
+  place-items:center;
+  margin-bottom:8px;
+  overflow:hidden;
+}
+.weather-graphic .wg-emoji{
+  font-size:46px; line-height:1;
+}
+.weather-graphic .wg-svg{ width:90%; height:auto; display:block }
+
+/* ---------------------- MEDIA BOXES (Dog/Cat same size) ---------------------- */
+.media-box{
+  width:100%;
+  height: var(--media-height);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+  display:grid;             /* allows child to fill */
+}
+.media-img,
+.media-img.skeleton{        /* skeleton must not change height */
+  width:100%;
+  height:100% !important;
+  grid-area:1 / 1;
+}
+.media-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;         /* fill frame */
+  object-position:center;
+  display:block;
+}
+
+/* ---------------------- CONTROLS / BUTTONS / INPUTS ---------------------- */
+/* All action rows anchored to bottom-right (cards) */
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;justify-content:flex-end;align-items:center}
+
+.btn{
+  border:1px solid var(--border-color);
+  background:#fff;
+  color:var(--text-primary);
+  padding:8px 12px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:transform .08s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.btn:active{transform:translateY(0)}
+.btn[disabled]{opacity:.6;cursor:not-allowed}
+
+/* Darker, solid gradient buttons that adapt to theme */
+.btn.primary{
+  background: var(--primary-gradient);
+  color: var(--btn-primary-fg);
+  border-color: transparent;
+}
+.btn.alt{
+  background: var(--secondary-gradient);
+  color: var(--btn-alt-fg);
+  border-color: transparent;
+}
+
+.btn.icon{width:44px;display:grid;place-items:center}
+
+.input, select{
+  width:100%;
+  background:#fff;
+  color:var(--text-primary);
+  border:1px solid var(--border-color);
+  border-radius:12px;
+  padding:8px;
+}
+.input:focus, select:focus{
+  outline:none;border-color:rgba(110,72,170,.35);box-shadow:0 0 0 4px rgba(110,72,170,.10)
+}
+
+.muted{color:var(--text-muted);font-size:13px}
+
+/* ---------------------- SKELETON ---------------------- */
+.skeleton{position:relative;overflow:hidden;background:#edf2f7;border-radius:12px;width:100%;height:140px}
+.skeleton::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);animation:shimmer 1.2s infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* ---------------------- FOOTER + LINKS ---------------------- */
+.credit.small{margin:4px auto 0;text-align:center;color:var(--footer-fg);font-size:12px}
+a{color:var(--link-fg);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------------------- CURRENCY LAYOUT ---------------------- */
+.cur-grid{ display:grid; grid-template-areas: "amount" "row" "submit"; gap:8px}
+#cur-amount{grid-area:amount}
+.cur-row{grid-area:row;display:grid;grid-template-columns:1fr 44px 1fr;gap:8px}
+.cur-submit{grid-area:submit;justify-self:end}
+
+/* ---------------------- GITHUB SEARCH ---------------------- */
+.gh-search{margin-top:auto;justify-content:flex-end}
+
+/* ---------------------- MOVIES GRID ---------------------- */
+.movies{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;width:100%}
+.movie-card{border:1px solid var(--border-color);border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.movie-card img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+.movie-card .mc-body{padding:8px;font-size:13px}
+
+/* ---------------------- PALETTES (fixed card size) ---------------------- */
+.palettes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;width:100%}
+.palette-card{background:var(--surface);border:1px solid var(--border-color);border-radius:14px;box-shadow:var(--card-shadow);padding:10px;display:flex;flex-direction:column;gap:10px}
+.palette-title{font-weight:600;font-size:14px}
+.swatches{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.swatch{position:relative;height:52px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08);cursor:pointer}
+.swatch:hover .copy{opacity:1}
+.copy{position:absolute;right:6px;top:6px;background:rgba(255,255,255,.85);border-radius:8px;padding:2px 6px;font-size:12px;border:1px solid var(--border-color);opacity:.0;transition:opacity .15s}
+.hex{font-size:12px;color:var(--text-secondary);text-align:center}
+
+/* Keep the Colormind card the SAME SIZE, regardless of movies quantity */
+.palette-fixed{min-height:340px;max-height:340px;display:flex;flex-direction:column}
+.palette-fixed .palettes{max-height:180px;overflow:hidden}
+.palette-fixed .controls{margin-top:auto}
+
+/* Theme preview ring around Apply button after applied */
+#palette-apply.applied{box-shadow:0 0 0 3px rgba(66,230,149,.35)}

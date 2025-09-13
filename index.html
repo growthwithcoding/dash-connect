@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DashConnect — API Dashboard</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="dashboard-container">
+    <header class="dashboard-header">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">DC</div>
+        <h1 class="brand-name">DashConnect</h1>
+      </div>
+      <div class="tagline">Multiple API Dashboard</div>
+    </header>
+
+    <main class="grid">
+      <!-- 1) Dog -->
+      <section class="widget" id="w-dog">
+        <h2 class="widget-title">🐶 Random Dog</h2>
+        <div class="media-box">
+          <div id="dog-img" class="media-img skeleton"></div>
+        </div>
+        <div class="controls">
+          <button class="btn primary" id="dog-btn">New Dog</button>
+        </div>
+      </section>
+
+      <!-- 2) Cat -->
+      <section class="widget" id="w-cat">
+        <h2 class="widget-title">🐱 Random Cat</h2>
+        <div class="media-box">
+          <div id="cat-img" class="media-img skeleton"></div>
+        </div>
+        <div class="controls">
+          <button class="btn primary" id="cat-btn">New Cat</button>
+        </div>
+      </section>
+
+      <!-- 3) Weather -->
+      <section class="widget" id="w-weather">
+        <h2 class="widget-title">🌤️ Weather (Open-Meteo)</h2>
+
+        <!-- NEW: dynamic graphic goes here -->
+        <div id="weather-graphic" class="weather-graphic" aria-hidden="true"></div>
+
+        <div class="content" id="weather-content">
+          <div class="muted">Enter a US ZIP and click <b>Get Weather</b>.</div>
+        </div>
+        <div class="controls">
+          <input id="weather-zip" class="input" type="text" inputmode="numeric"
+                 autocomplete="postal-code" placeholder="ZIP code (US)"
+                 aria-label="ZIP code" maxlength="5" pattern="\d{5}"/>
+          <button class="btn primary" id="weather-btn">Get Weather</button>
+        </div>
+      </section>
+
+      <!-- 4) Currency -->
+      <section class="widget" id="w-currency">
+        <h2 class="widget-title">💱 Currency Exchange</h2>
+        <div class="content" id="currency-content">
+          <div class="muted">Enter an amount & currencies, then <b>Convert</b>.</div>
+        </div>
+        <div class="controls cur-grid">
+          <input id="cur-amount" type="number" step="0.01" class="input" value="1"/>
+          <div class="cur-row">
+            <select id="cur-from" class="input">
+              <option>USD</option><option>EUR</option><option>GBP</option><option>JPY</option><option>AUD</option>
+              <option>CAD</option><option>CHF</option><option>CNY</option><option>INR</option><option>MXN</option>
+            </select>
+            <button class="btn icon" id="cur-swap" title="Swap">⇄</button>
+            <select id="cur-to" class="input">
+              <option>EUR</option><option>USD</option><option>GBP</option><option>JPY</option><option>AUD</option>
+              <option>CAD</option><option>CHF</option><option>CNY</option><option>INR</option><option>MXN</option>
+            </select>
+          </div>
+          <button class="btn primary cur-submit" id="cur-btn">Convert</button>
+        </div>
+      </section>
+
+      <!-- 5) GitHub -->
+      <section class="widget" id="w-github">
+        <h2 class="widget-title">🧑‍💻 GitHub User</h2>
+        <div class="content" id="github-content">
+          <div class="muted">Search a GitHub username.</div>
+        </div>
+        <div class="controls gh-search">
+          <input id="gh-user" class="input" placeholder="e.g., octocat"/>
+          <button class="btn primary" id="gh-btn">Search</button>
+        </div>
+      </section>
+
+      <!-- 6) Joke -->
+      <section class="widget" id="w-joke">
+        <h2 class="widget-title">😂 Joke (Safe)</h2>
+        <div class="content" id="joke-content">
+          <div class="muted">Press for a joke.</div>
+        </div>
+        <div class="controls">
+          <button class="btn primary" id="joke-btn">Tell me a joke</button>
+        </div>
+      </section>
+
+      <!-- 7) Colormind (fixed height card) -->
+      <section class="widget palette-fixed" id="w-palette">
+        <h2 class="widget-title">🎨 Colormind Palettes</h2>
+        <div id="palette-list" class="palettes">
+          <div class="skeleton" style="height:120px"></div>
+        </div>
+        <div class="controls">
+          <button class="btn" id="palette-refresh">New Palette</button>
+          <button class="btn alt" id="palette-apply">Apply Theme</button>
+          <button class="btn" id="palette-revert">Revert</button>
+          <span id="theme-msg" class="muted"></span>
+        </div>
+      </section>
+
+      <!-- 8) Movies (spans two columns next to Palette; full width on small screens) -->
+      <section class="widget wide" id="w-movies">
+        <h2 class="widget-title with-actions">
+          <span>🎬 Movies</span>
+          <span class="title-actions">
+            <button class="btn alt" id="btn-trending" title="Load TMDB Trending">Trending</button>
+            <button class="btn primary" id="btn-ghibli" title="Use Ghibli (no key)">Ghibli</button>
+          </span>
+        </h2>
+        <div class="content" id="movies-content">
+          <div class="skeleton" style="height:180px"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="credit small">
+      Built for the 🧪 Final JavaScript Project — <strong>DashConnect API Dashboard</strong>. Made with ♥ by
+      <a href="https://github.com/growthwithcoding" target="_blank" rel="noopener">@growthwithcoding</a>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
