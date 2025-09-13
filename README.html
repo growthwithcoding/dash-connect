@@ -1,0 +1,202 @@
+<!-- ?xml version='1.0' encoding='UTF-8'? -->
+<link href="/github-markdown-css/github-css.css" rel="stylesheet"/>
+<meta charset="utf-8" content="text/html"/>
+<div class="gist">
+<style class="formula-style">
+        svg.gh-md-to-html-formula {
+            fill: black;
+        }
+    </style>
+<div class="gist-file"> <!-- This is the class that is responsible for the boxing! -->
+<div class="gist-data">
+<div class="js-gist-file-update-container js-task-list-container file-box">
+<div class="file" id="user-content-article-README">
+<div class="Box-body readme blob js-code-block-container p-5 p-xl-6" id="user-content-file-docker-image-pull-md-readme" style="margin-left: 40px; margin-right: 40px; margin-top: 20px; margin-bottom: 20px">
+<article class="markdown-body entry-content container-lg" itemprop="text">
+<div class="markdown-heading"><h1 class="heading-element">⚡ DashConnect — API Dashboard</h1><a aria-label="Permalink: ⚡ DashConnect — API Dashboard" class="anchor" href="#user-content--dashconnect--api-dashboard" id="user-content--dashconnect--api-dashboard" name="user-content--dashconnect--api-dashboard"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>I built <strong>DashConnect</strong> to showcase everything I learned in the JavaScript unit: DOM manipulation, <code>fetch</code>, async/await, and working with multiple public APIs on one cohesive page. Each card is a tiny app, and the whole UI is vanilla HTML/CSS/JS—no frameworks or chart libs.</p>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">🎯 What it does</h2><a aria-label="Permalink: 🎯 What it does" class="anchor" href="#user-content--what-it-does" id="user-content--what-it-does" name="user-content--what-it-does"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>🐶 <strong>Random Dog</strong> (Dog CEO API)</li>
+<li>🐱 <strong>Random Cat</strong> (TheCatAPI)</li>
+<li>🌤️ <strong>Weather by ZIP</strong> (Zippopotam.us → Open-Meteo current weather)</li>
+<li>💱 <strong>Currency converter</strong> (exchangerate.host with a Frankfurter fallback)</li>
+<li>🧑‍💻 <strong>GitHub user lookup</strong> (GitHub REST API)</li>
+<li>😂 <strong>Safe jokes</strong> (JokeAPI)</li>
+<li>🎬 <strong>Movies</strong> (TMDB trending with API key, plus Studio Ghibli fallback)</li>
+<li>🎨 <strong>Color palettes</strong> (Colormind; apply/revert palette to the site theme)</li>
+</ul>
+<p>I also auto-detect the user’s <strong>ZIP from IP</strong> (US only) with <code>ipapi.co</code>, and fall back to a default ZIP if that fails.</p>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">🚀 Quick start</h2><a aria-label="Permalink: 🚀 Quick start" class="anchor" href="#user-content--quick-start" id="user-content--quick-start" name="user-content--quick-start"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>
+<p>Download or clone the project.</p>
+</li>
+<li>
+<p>Open <code>index.html</code> in any modern browser.</p>
+<ul>
+<li>Colormind is <strong>HTTP</strong>; some browsers block it on secure contexts. If that happens, the app falls back to a safe local palette.</li>
+</ul>
+</li>
+<li>
+<p>Trending movies use my TMDB key (in code). You can also click <strong>Ghibli</strong> (no key).</p>
+</li>
+</ol>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">📂 Files</h2><a aria-label="Permalink: 📂 Files" class="anchor" href="#user-content--files" id="user-content--files" name="user-content--files"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<code>index.html</code> — dashboard structure</li>
+<li>
+<code>styles.css</code> — responsive styles (Subframe-inspired; credit below)</li>
+<li>
+<code>app.js</code> — all fetch logic, DOM updates, palette apply/revert, and helpers</li>
+</ul>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">💡 Highlights I’m proud of</h2><a aria-label="Permalink: 💡 Highlights I’m proud of" class="anchor" href="#user-content--highlights-im-proud-of" id="user-content--highlights-im-proud-of" name="user-content--highlights-im-proud-of"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Clean async flows</strong> with graceful errors in every card.</li>
+<li>
+<strong>ZIP enforcement</strong>: only 5 digits allowed as you type.</li>
+<li>
+<strong>IP bootstrap</strong>: try <code>ipapi.co</code> for ZIP; fall back to a default.</li>
+<li>
+<strong>Two-provider currency</strong>: exchangerate.host, then Frankfurter.</li>
+<li>
+<strong>Palette → Theme</strong>: map 5 generated colors into CSS gradient variables; <strong>Apply</strong> and <strong>Revert</strong> work instantly.</li>
+<li>
+<strong>Clipboard UX</strong>: click a swatch to copy its hex (📋 → ✅ feedback).</li>
+</ul>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">🔌 How each mini-app works (API references)</h2><a aria-label="Permalink: 🔌 How each mini-app works (API references)" class="anchor" href="#user-content--how-each-mini-app-works-api-references" id="user-content--how-each-mini-app-works-api-references" name="user-content--how-each-mini-app-works-api-references"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<div class="markdown-heading"><h3 class="heading-element">🐶 Dog</h3><a aria-label="Permalink: 🐶 Dog" class="anchor" href="#user-content--dog" id="user-content--dog" name="user-content--dog"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>Endpoint: <code>https://dog.ceo/api/breeds/image/random</code>
+</li>
+<li>Docs: <a href="https://dog.ceo/dog-api/" rel="nofollow">https://dog.ceo/dog-api/</a>
+</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">🐱 Cat</h3><a aria-label="Permalink: 🐱 Cat" class="anchor" href="#user-content--cat" id="user-content--cat" name="user-content--cat"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>Endpoint: <code>https://api.thecatapi.com/v1/images/search?size=small</code>
+</li>
+<li>Docs: <a href="https://docs.thecatapi.com/" rel="nofollow">https://docs.thecatapi.com/</a>
+</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">🌤️ Weather (ZIP → current)</h3><a aria-label="Permalink: 🌤️ Weather (ZIP → current)" class="anchor" href="#user-content-️-weather-zip--current" id="user-content-️-weather-zip--current" name="user-content-️-weather-zip--current"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ol>
+<li>
+<p>ZIP → lat/lon with Zippopotam.us</p>
+<ul>
+<li><code>https://api.zippopotam.us/us/{zip}</code></li>
+</ul>
+</li>
+<li>
+<p>Current weather with Open-Meteo</p>
+<ul>
+<li><code>https://api.open-meteo.com/v1/forecast?...</code></li>
+</ul>
+</li>
+</ol>
+<p>Docs linked above.</p>
+<div class="markdown-heading"><h3 class="heading-element">💱 Currency</h3><a aria-label="Permalink: 💱 Currency" class="anchor" href="#user-content--currency" id="user-content--currency" name="user-content--currency"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Primary:</strong> exchangerate.host</li>
+<li>
+<strong>Fallback:</strong> Frankfurter</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">🧑‍💻 GitHub user</h3><a aria-label="Permalink: 🧑‍💻 GitHub user" class="anchor" href="#user-content--github-user" id="user-content--github-user" name="user-content--github-user"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li><code>https://api.github.com/users/{username}</code></li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">😂 Joke (safe mode)</h3><a aria-label="Permalink: 😂 Joke (safe mode)" class="anchor" href="#user-content--joke-safe-mode" id="user-content--joke-safe-mode" name="user-content--joke-safe-mode"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li><code>https://v2.jokeapi.dev/joke/Any?safe-mode</code></li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">🎬 Movies</h3><a aria-label="Permalink: 🎬 Movies" class="anchor" href="#user-content--movies" id="user-content--movies" name="user-content--movies"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>TMDB Trending:</strong> requires API key</li>
+<li>
+<strong>Studio Ghibli (fallback):</strong> free, no key</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">🌎 IP → ZIP</h3><a aria-label="Permalink: 🌎 IP → ZIP" class="anchor" href="#user-content--ip--zip" id="user-content--ip--zip" name="user-content--ip--zip"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<code>https://ipapi.co/json/</code> (primary)</li>
+<li>
+<code>https://ipinfo.io/json</code> (backup)</li>
+</ul>
+<div class="markdown-heading"><h3 class="heading-element">🎨 Colormind palette</h3><a aria-label="Permalink: 🎨 Colormind palette" class="anchor" href="#user-content--colormind-palette" id="user-content--colormind-palette" name="user-content--colormind-palette"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<code>http://colormind.io/api/</code> (HTTP only, fallback handled)</li>
+</ul>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">📚 Algorithms &amp; helper references</h2><a aria-label="Permalink: 📚 Algorithms &amp; helper references" class="anchor" href="#user-content--algorithms--helper-references" id="user-content--algorithms--helper-references" name="user-content--algorithms--helper-references"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>RGB → HSL conversion</strong> — <a href="https://en.wikipedia.org/wiki/HSL_and_HSV" rel="nofollow">Wikipedia</a> • <a href="https://www.w3.org/TR/css-color-4/#the-hsl-notation" rel="nofollow">W3C</a>
+</li>
+<li>
+<strong>Clipboard API</strong> — <a href="https://developer.mozilla.org/docs/Web/API/Clipboard_API" rel="nofollow">MDN Docs</a>
+</li>
+<li>
+<strong>Fetch / async</strong> — <a href="https://developer.mozilla.org/docs/Web/API/Fetch_API" rel="nofollow">MDN Docs</a>
+</li>
+<li>
+<strong>Responsive media (<code>object-fit</code>, <code>aspect-ratio</code>)</strong> — <a href="https://developer.mozilla.org/" rel="nofollow">MDN Docs</a>
+</li>
+<li>
+<strong><code>toLocaleString</code> formatting</strong> — <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString" rel="nofollow">MDN Docs</a>
+</li>
+</ul>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">♿ Accessibility &amp; UX notes</h2><a aria-label="Permalink: ♿ Accessibility &amp; UX notes" class="anchor" href="#user-content--accessibility--ux-notes" id="user-content--accessibility--ux-notes" name="user-content--accessibility--ux-notes"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>Visible labels + emoji only (no icon libs).</li>
+<li>Copy-to-clipboard shows success feedback.</li>
+<li>Explicit units (°C, m/s, USD/EUR).</li>
+<li>Input guards (ZIP restricted to 5 digits).</li>
+</ul>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element"><g-emoji alias="warning" class="g-emoji">⚠️</g-emoji> Known limitations</h2><a aria-label="Permalink: ⚠️ Known limitations" class="anchor" href="#user-content-️-known-limitations" id="user-content-️-known-limitations" name="user-content-️-known-limitations"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Colormind</strong> is HTTP-only (blocked on HTTPS).</li>
+<li>
+<strong>TMDB</strong> requires a personal key.</li>
+<li>Some APIs throttle anonymous usage; I show graceful errors.</li>
+</ul>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">🙌 Credits</h2><a aria-label="Permalink: 🙌 Credits" class="anchor" href="#user-content--credits" id="user-content--credits" name="user-content--credits"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<ul>
+<li>
+<strong>Style inspiration:</strong> Subframe — “CSS Dashboard Examples”</li>
+<li>
+<strong>Google Font (Poppins)</strong> — <a href="https://fonts.google.com/specimen/Poppins" rel="nofollow">Google Fonts</a>
+</li>
+<li>
+<strong>APIs used:</strong> Dog CEO • TheCatAPI • Zippopotam.us • Open-Meteo • exchangerate.host • Frankfurter • GitHub • JokeAPI • TMDB • Studio Ghibli • ipapi • ipinfo • Colormind</li>
+</ul>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">👨‍💻 Author</h2><a aria-label="Permalink: 👨‍💻 Author" class="anchor" href="#user-content--author" id="user-content--author" name="user-content--author"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p><strong>Austin Carlson</strong><br/>
+<a href="https://github.com/growthwithcoding"><img alt="GitHub" data-canonical-src="/images/GitHub-growthwithcoding-181717.svg" src="/images/GitHub-growthwithcoding-181717.svg" style="max-width: 100%;"/></a></p>
+<p>💬 <em>“Building cool stuff, one commit at a time.”</em></p>
+<hr/>
+<div class="markdown-heading"><h2 class="heading-element">📜 License</h2><a aria-label="Permalink: 📜 License" class="anchor" href="#user-content--license" id="user-content--license" name="user-content--license"><span aria-hidden="true" class="octicon octicon-link"></span></a></div>
+<p>Educational/portfolio use. Each API has its own terms — please review before use.<br/>
+Design inspired by Subframe’s examples; CSS handcrafted.</p>
+<hr/>
+</article>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
