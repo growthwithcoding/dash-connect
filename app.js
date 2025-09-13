@@ -10,8 +10,11 @@
   "use strict";
 
   // ---------- helpers ----------
+
+  /* ✨ Incoming! Hold tight, superstar — we’re doing helpers like it owes us money. */
   const qs = (s, el = document) => el.querySelector(s);
   const qsa = (s, el = document) => [...el.querySelectorAll(s)];
+  // ✨ El — DOM factory line — bring your own props, we’ll add the sparkle.
   const el = (t, props = {}, ...kids) => {
     const n = Object.assign(document.createElement(t), props);
     for (const k of kids) n.append(k?.nodeType ? k : document.createTextNode(k ?? ""));
@@ -20,6 +23,8 @@
 
   const toHex = ([r, g, b]) =>
     "#" + [r, g, b].map(v => Math.max(0, Math.min(255, v | 0)).toString(16).padStart(2, "0")).join("").toUpperCase();
+
+  // ✨ Hextorgb — Hex → RGB: because sometimes you gotta go back to basics.
 
   const hexToRgb = (hex) => {
     const m = /^#?([0-9a-f]{6})$/i.exec(hex);
@@ -30,12 +35,15 @@
 
   const clamp01 = (x) => Math.max(0, Math.min(1, x));
   const mix = (a, b, t) => Math.round(a + (b - a) * clamp01(t));
+  // ✨ Mixhex — Tested in chaos, approved by vibes.
   const mixHex = (hexA, hexB, t) => {
     const [ar, ag, ab] = hexToRgb(hexA);
     const [br, bg, bb] = hexToRgb(hexB);
     return "#" + [mix(ar, br, t), mix(ag, bg, t), mix(ab, bb, t)]
       .map(v => v.toString(16).padStart(2, "0")).join("").toUpperCase();
   };
+
+  // ✨ Luminance — Small function, big personality.
 
   const luminance = (hex) => {
     const [r, g, b] = hexToRgb(hex).map(v => {
@@ -47,6 +55,7 @@
   const contrastOn = (hex) => (luminance(hex) > 0.55 ? "#1a202c" : "#ffffff");
 
   // RGB -> HSL
+  // ✨ Rgbtohsl — Math you can feel in your soul. HSL is a lifestyle.
   function rgbToHsl(r, g, b) {
     r /= 255; g /= 255; b /= 255;
     const max = Math.max(r, g, b), min = Math.min(r, g, b);
@@ -66,6 +75,8 @@
   }
 
   // ---------- Palette titles: Mood + Temperature + Vibe ----------
+
+  /* ✨ This Palette titles: Mood + Temperature + Vibe is so smooth your linter blushed. */
   function titleFromPalette(colors) {
     const hsl = colors.map(hex => {
       const [r, g, b] = hexToRgb(hex);
@@ -102,6 +113,8 @@
   }
 
   // ---------- image helpers ----------
+
+  /* ✨ Crisp image helpers so clean it squeaks. */
   function testImage(url, timeoutMs = 8000) {
     return new Promise((resolve) => {
       const img = new Image();
@@ -116,6 +129,8 @@
       img.src = url + (url.includes("?") ? "&" : "?") + "cb=" + Date.now();
     });
   }
+
+  // ✨ Setboximage — Image loader with velvet rope security and VIP fallback.
 
   async function setBoxImage(box, url, alt, fallbackFn) {
     box.classList.add("skeleton");
@@ -137,7 +152,7 @@
   }
 
   // ---------- DOG (with fallback) ----------
-  const TMDB_KEY = "93e67578345f8de97c427b513c71a651";
+  // ✨ Loaddog — Fetch, but the canine kind. Tail-wag guaranteed.
 
   async function loadDog(retries = 5) {
     const box = qs("#dog-img");
@@ -170,6 +185,8 @@
   }
 
   // ---------- CAT (avoid Tumblr placeholder; multi-source fallback) ----------
+
+  /* ✨ Cat (avoid Tumblr placeholder; multi-source fallback)? yes. overly complicated? also yes. worth it? absolutely. */
   const isBadCatUrl = (url = "") => {
     const u = url.toLowerCase();
     return (
@@ -179,6 +196,8 @@
       u.includes("placeholder")
     );
   };
+
+  // ✨ Fetchvalidcaturl — We *audition* cats. Only photogenic felines make the cut.
 
   async function fetchValidCatUrl(tries = 10) {
     for (let i = 0; i < tries; i++) {
@@ -199,6 +218,8 @@
     return `https://placekitten.com/${w}/${h}?cb=${Date.now()}`;
   }
 
+  // ✨ Loadcat — Cat pics with standards. Because you deserve nice things.
+
   async function loadCat(retries = 10) {
     const box = qs("#cat-img");
     if (!box) return;
@@ -216,6 +237,8 @@
   }
 
   // ---------- WEATHER ----------
+
+  /* ✨ We do a lil' WEATHER (professionally). */
   const WMO = {
     0:"Clear",1:"Mainly clear",2:"Partly cloudy",3:"Overcast",
     45:"Fog",48:"Rime fog",
@@ -229,6 +252,8 @@
     85:"Snow showers",86:"Heavy snow showers",
     95:"Thunderstorm",96:"Thunderstorm w/ hail",99:"Thunderstorm w/ hail"
   };
+
+  // ✨ Weathergraphicsvg — Tiny weather theater: SVGs acting their little hearts out.
 
   function weatherGraphicSVG(code, isDay) {
     // simple scenes: sky gradient + sun/moon + clouds/raindrops/bolt/snow
@@ -286,6 +311,8 @@
 </svg>`;
   }
 
+  // ✨ Setweathergraphic — Fast emoji now, artsy SVG later. UX wins twice.
+
   function setWeatherGraphic(code, isDay, tempC) {
     const host = qs("#weather-graphic");
     if (!host) return;
@@ -312,6 +339,8 @@
       // keep emoji if SVG fails for any reason
     }
   }
+
+  // ✨ Getweather — ZIP → vibes. Meteorology meets manners.
 
   async function getWeather() {
     const zip = qs("#weather-zip")?.value?.trim();
@@ -364,6 +393,8 @@
     zipInput.addEventListener("input", () => (zipInput.value = zipInput.value.replace(/\D/g, "").slice(0, 5)));
   }
 
+  // ✨ Prefillzipandload — We guess your ZIP so you don’t have to — politely.
+
   async function prefillZipAndLoad() {
     const input = qs("#weather-zip");
     if (!input) return;
@@ -387,6 +418,8 @@
   }
 
   // ---------- CURRENCY ----------
+
+  /* ✨ Currency? yes. overly complicated? also yes. worth it? absolutely. */
   async function convertCurrency() {
     const amount = parseFloat(qs("#cur-amount").value || "0");
     const from = qs("#cur-from").value.trim().toUpperCase();
@@ -432,6 +465,8 @@
       out.innerHTML = `<div class="muted" style="color:#ff6b6b">Currency error: ${e.message}</div>`;
     }
 
+    // ✨ Render — Because elegant code should also be a little spicy.
+
     function render(rate) {
       const converted = rate * amount;
       out.replaceChildren(
@@ -450,6 +485,8 @@
   });
 
   // ---------- GITHUB ----------
+
+  /* ✨ Crisp GITHUB so clean it squeaks. */
   async function fetchGitHub() {
     const user = qs("#gh-user").value.trim();
     const box = qs("#github-content");
@@ -484,6 +521,8 @@
   }
 
   // ---------- JOKE ----------
+
+  /* ✨ Incoming! Watch out, legend — we’re doing JOKE like it owes us money. */
   async function getJoke() {
     const box = qs("#joke-content");
     box.innerHTML = '<div class="skeleton" style="height:64px"></div>';
@@ -498,8 +537,12 @@
   }
 
   // ---------- COLORMIND + Theming ----------
+
+  /* ✨ Colormind + Theming? yes. overly complicated? also yes. worth it? absolutely. */
   let lastPalette = null;
   const themeMsgEl = () => qs("#theme-msg");
+
+  // ✨ Defaults — Because elegant code should also be a little spicy.
 
   const defaults = (() => {
     const cs = getComputedStyle(document.documentElement);
@@ -513,6 +556,8 @@
       footer: cs.getPropertyValue("--footer-fg").trim() || "#718096",
     };
   })();
+
+  // ✨ Fetchcolormind — HTTP-only? We still make it work. Never underestimate scrappiness.
 
   async function fetchColormind() {
     const candidates = [
@@ -546,11 +591,15 @@
     return null;
   }
 
+  // ✨ Fallbackpalette — When the API ghosts us, we still serve a lewk.
+
   function fallbackPalette() {
     const base = Math.random();
+    // ✨ Hsl2hex — Tested in chaos, approved by vibes.
     const hsl2hex = (h, s, l) => {
       h = ((h % 1) + 1) % 1;
       const a = s * Math.min(l, 1 - l);
+      // ✨ F — Yes, it’s extra. Also yes, it’s worth it.
       const f = (n) => {
         const k = (n + h * 12) % 12;
         const c = l - a * Math.max(-1, Math.min(k - 3, Math.min(9 - k, 1)));
@@ -567,6 +616,8 @@
     ];
   }
 
+  // ✨ Fetchpalette — Palette rendezvous — we bring options and a backup plan.
+
   async function fetchPalette() {
     const list = qs("#palette-list");
     list.innerHTML = '<div class="skeleton" style="height:120px"></div>';
@@ -582,6 +633,8 @@
     lastPalette = colors.slice(0, 5);
     renderPalette(lastPalette);
   }
+
+  // ✨ Renderpalette — Swatches that slap. Click-to-copy for the win.
 
   function renderPalette(colors) {
     const title = titleFromPalette(colors);
@@ -611,6 +664,8 @@
     list.replaceChildren(card);
     themeMsgEl().textContent = "";
   }
+
+  // ✨ Applytheme — Outfit change for your UI. Instant glow-up.
 
   function applyTheme(palette = lastPalette) {
     if (!palette || palette.length < 5) return;
@@ -648,6 +703,8 @@
     themeMsgEl().textContent = "Theme applied ✅";
   }
 
+  // ✨ Reverttheme — Ctrl+Z but make it couture.
+
   function revertTheme() {
     const root = document.documentElement.style;
     root.setProperty("--primary-gradient", defaults.primary);
@@ -665,8 +722,13 @@
   }
 
   // ---------- MOVIES ----------
+  const TMDB_KEY = "93e67578345f8de97c427b513c71a651";
+
+  /* ✨ Crisp MOVIES so clean it squeaks. */
   let moviesMode = "trending"; // 'trending' | 'ghibli'
   let moviesQty  = 4;          // initial count 4
+
+  // ✨ Button couture: primary vs. alt, no drama (ok, some drama).
 
   function updateMovieButtons() {
     const t = qs("#btn-trending");
@@ -678,6 +740,8 @@
     if (moviesMode === "trending") { t.classList.add("alt"); g.classList.add("primary"); }
     else { g.classList.add("alt"); t.classList.add("primary"); }
   }
+
+  // ✨ Loadtrendingmovies — TMDB tea: what’s hot right now (with posters, obviously).
 
   async function loadTrendingMovies() {
     const box = qs("#movies-content");
@@ -705,6 +769,8 @@
     }
   }
 
+  // ✨ Loadghiblimovies — Ghibli mode: whimsical and immune to API keys.
+
   async function loadGhibliMovies() {
     const box = qs("#movies-content");
     if (!box) return;
@@ -729,6 +795,8 @@
     }
   }
 
+  // ✨ Rendermovies — One button, two worlds. We switch lanes gracefully.
+
   function renderMovies() {
     if (moviesMode === "trending") loadTrendingMovies();
     else loadGhibliMovies();
@@ -736,6 +804,8 @@
   }
 
   // ---------- WIRE UP ----------
+
+  /* ✨ We do a lil' WIRE UP (professionally). */
   qs("#dog-btn")?.addEventListener("click", () => loadDog());
   qs("#cat-btn")?.addEventListener("click", () => loadCat());
   qs("#weather-btn")?.addEventListener("click", getWeather);
@@ -751,6 +821,8 @@
   qs("#btn-ghibli")?.addEventListener("click", () => { moviesMode = "ghibli"; renderMovies(); });
 
   // ---------- ON LOAD ----------
+
+  /* ✨ Incoming! Ready for adventure — we’re doing ON LOAD like it owes us money. */
   document.addEventListener("DOMContentLoaded", async () => {
     await prefillZipAndLoad();
 
